@@ -9,14 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloudsystem-client</artifactId>
+    <artifactId>cloudsystem-updater</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <build>
-        <finalName>client</finalName>
+        <finalName>updater</finalName>
     </build>
 
     <dependencies>

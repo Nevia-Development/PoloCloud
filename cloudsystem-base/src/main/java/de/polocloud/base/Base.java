@@ -22,6 +22,7 @@ import de.polocloud.base.service.LocalService;
 import de.polocloud.base.service.SimpleServiceManager;
 import de.polocloud.base.templates.GroupTemplateService;
 import de.polocloud.database.DatabaseManager;
+import de.polocloud.updater.Updater;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -82,8 +83,21 @@ public final class Base extends CloudAPI {
             this.logger.log("Please configure your database in the config.json!", LogType.WARNING);
             return;
         }
-        this.checkVersion();
+//        this.checkVersion();
 
+        Updater updater = new Updater();
+        updater.update(() -> {
+            start();
+            return null;
+        }, () -> {
+            start();
+            return null;
+        });
+
+
+    }
+
+    private void start() {
         new DefaultExceptionCodes();
 
         this.commandManager = new SimpleCommandManager();

@@ -34,18 +34,10 @@ public class VersionProvider {
     }
 
     public Version getVersion(String version) {
-        String currentVersion = version;
-        if (currentVersion.equalsIgnoreCase("Unknown")) {
+        if (version.equalsIgnoreCase("Unknown")) {
             return new Version(0, 0, 0, "");
         }
-        currentVersion = currentVersion.replace("V", "").replace("v", "");
-        String[] splitType = currentVersion.split("-");
-        String[] versionSplit = splitType[0].split("\\.");
-        if (splitType.length == 1) {
-            return new Version(versionSplit.length >= 1 ? Integer.parseInt(versionSplit[0]) : 0, versionSplit.length >= 2 ? Integer.parseInt(versionSplit[1]) : 0, versionSplit.length >= 3 ? Integer.parseInt(versionSplit[2]) : 0, "");
-        } else {
-            return new Version(versionSplit.length >= 1 ? Integer.parseInt(versionSplit[0]) : 0, versionSplit.length >= 2 ? Integer.parseInt(versionSplit[1]) : 0, versionSplit.length >= 3 ? Integer.parseInt(versionSplit[2]) : 0, splitType[1]);
-        }
+        return Version.parse(version);
     }
 
     public Version getNewestVersion() {
@@ -63,7 +55,7 @@ public class VersionProvider {
             HttpResponse<String> response = responseFuture.get();
             JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
             String version = jsonObject.has("name") ? jsonObject.get("name").getAsString() : "0.0.0-ERROR";
-            return getVersion(version);
+            return Version.parse(version);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
